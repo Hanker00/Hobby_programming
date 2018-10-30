@@ -6,7 +6,7 @@ char board[10][10];
 int over = 0;
 int turns = 0;
 
-/* displays the board */
+/* Both draws and displays the board */
 void DisplayBoard ( char board[][10] )
 {
 	system ("clear");
@@ -31,6 +31,10 @@ void DisplayBoard ( char board[][10] )
 
 }
 
+/* This function loops through every column and row to find potential places where either player could
+reach the end goal four in a row. This function is run after every player makes a turn. 
+If the function finds a place where 4 spots in a row is occupied by either X or O it will give the 
+over variable the value of the player who reached 4 in a row. */
 void checkWin() 
 {
 	for(int l = 1; l <= 7; l++) 
@@ -124,83 +128,87 @@ void checkWin()
 
 
 
-
+/* This function is the main function and this is the one that executes when you run the program.
+It makes use of all previous function in order to build the program. */
 int main() 
 {
+	/* This is the loop that determines wheter the game is over or not if the variable over is less or 
+	equal to 0 the game is still going and the loop will continue to run */
 	while(over <= 0) 
 	{
-	DisplayBoard(board);
-	cout << "player1 pick a number between 1 - 7\n";
-	int p1 = 0;
-	int p2 = 0;
-	int valid = 0;
-	cin >> p1;
-	while(valid == 0) 
-	{
-		if(p1 == 1 || p1 == 2 || p1 == 3 || p1 == 4 || p1 == 5 || p1 == 6 || p1 == 7) 
+		DisplayBoard(board);
+		cout << "player1 pick a number from 1 - 7\n";
+		int p1 = 0;
+		int p2 = 0;
+		int valid = 0;
+		cin >> p1;
+		// Make sures that input the user gives is a number from 1 - 7
+		while(valid == 0) 
 		{
-			valid = 1;
+			if(p1 == 1 || p1 == 2 || p1 == 3 || p1 == 4 || p1 == 5 || p1 == 6 || p1 == 7) 
+			{
+				valid = 1;
+			}
+			else {
+				cout << "that is not a number from 1-7, please try again:\n";
+				cin >> p1;
+			}
 		}
-		else {
-			cout << "that is not a number between 1-7, please try again:\n";
-			cin >> p1;
+		turns += 1;
+		for(int j = 6; j >= 0; j-- ) {
+			cout << board[j][p1];
+			if(board[j][p1] == 'X' || board[j][p1]== 'O') {
+			}
+			else {
+				board[j][p1] = 'X';
+				j = 0;
+			}
 		}
-	}
-	turns += 1;
-	for(int j = 6; j >= 0; j-- ) {
-		cout << board[j][p1];
-		if(board[j][p1] == 'X' || board[j][p1]== 'O') {
-		}
-		else {
-			board[j][p1] = 'X';
-			j = 0;
-		}
-	}
-	
-	checkWin();
-	DisplayBoard(board);
-	if(over != 0)
-	{
-		break;
-	}
-	cout << "player2 pick a number between 1 - 7\n";
-	cin >> p2;
-	if(p2 == 1 || p2== 2 || p2 == 3 || p2 == 4 || p2 == 5 || p2 == 6 || p2 == 7) 
+		
+		checkWin();
+		DisplayBoard(board);
+		if(over != 0)
 		{
-			valid = 1;
+			break;
 		}
-		else {
-			cout << "that is not a number between 1-7, please try again:\n";
-			cin >> p2;
+		cout << "player2 pick a number from 1 - 7\n";
+		cin >> p2;
+		if(p2 == 1 || p2== 2 || p2 == 3 || p2 == 4 || p2 == 5 || p2 == 6 || p2 == 7) 
+			{
+				valid = 1;
+			}
+			else {
+				cout << "that is not a number from 1-7, please try again:\n";
+				cin >> p2;
+			}
+		turns += 1;
+		for(int j = 6; j >= 0; j-- ) 
+		{
+			if(board[j][p2] == 'X' || board[j][p2]== 'O') {
+			}
+			else 
+			{
+				board[j][p2] = 'O';
+				j = 0;
+			}
 		}
-	turns += 1;
-	for(int j = 6; j >= 0; j-- ) 
-	{
-		if(board[j][p2] == 'X' || board[j][p2]== 'O') {
+		if(turns >= 42) {
+			over = 3;
+		}
+		checkWin();
+		DisplayBoard(board);
+		checkWin();
+		}
+		if(over == 1)
+		{
+			cout << "\nPlayer1 wins!\n\n";
+		}
+		else if(over == 3) 
+		{
+			cout << "\nBoard is full, It is a tie!\n\n";
 		}
 		else 
 		{
-			board[j][p2] = 'O';
-			j = 0;
+			cout << "\nPlayer 2 wins!\n\n";
 		}
-	}
-	if(turns >= 42) {
-		over = 3;
-	}
-	checkWin();
-	DisplayBoard(board);
-	checkWin();
-	}
-	if(over == 1)
-	{
-		cout << "\nPlayer1 wins!\n\n";
-	}
-	else if(over == 3) 
-	{
-		cout << "\nBoard is full, It is a tie!\n\n";
-	}
-	else 
-	{
-		cout << "\nPlayer 2 wins!\n\n";
-	}
 }
