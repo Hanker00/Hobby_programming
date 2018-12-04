@@ -1,9 +1,11 @@
+
 #include <iostream>
 using namespace std;
 
 int rows = 6, columns = 7, i, col;
 char board[10][10];
 int over = 0;
+//This is made to keep count of all the turns after each player moves if the count is 42 the board will be full and the game will end.
 int turns = 0;
 
 /* Both draws and displays the board */
@@ -132,7 +134,7 @@ void checkWin()
 It makes use of all previous function in order to build the program. */
 int main() 
 {
-	/* This is the loop that determines wheter the game is over or not if the variable over is less or 
+	/* This is the loop that determines wheter the game is over or not. If the variable "over"> is less or 
 	equal to 0 the game is still going and the loop will continue to run */
 	while(over <= 0) 
 	{
